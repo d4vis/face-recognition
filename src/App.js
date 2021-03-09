@@ -24,8 +24,8 @@ class App extends Component {
       route: "signin",
       isSignedIn: false,
       user: {
-        id: "1",
-        name: "John",
+        id: "",
+        name: "",
         email: "",
         entries: 0,
         joined: "",
@@ -50,7 +50,6 @@ class App extends Component {
     const image = document.getElementById("inputimage");
     const width = Number(image.width);
     const height = Number(image.height);
-    console.log(width, height);
     return {
       leftCol: clarifaiFace.left_col * width,
       topRow: clarifaiFace.top_row * height,
@@ -60,11 +59,9 @@ class App extends Component {
   };
 
   displayFaceBox = (box) => {
-    // console.log(box);
     this.setState({ box: box });
   };
   onInputChange = (event) => {
-    // console.log(event.target.value);
     this.setState({ input: event.target.value });
   };
 
@@ -78,7 +75,6 @@ class App extends Component {
       )
       .then((response) => {
         if (response) {
-          // const u_id = this.state.user.id
           fetch("http://localhost:3001/image", {
             method: "put",
             headers: { "Content-Type": "application/json" },
@@ -128,7 +124,7 @@ class App extends Component {
             <FaceRecognition box={box} imageUrl={imageUrl} />
           </div>
         ) : route === "signin" ? (
-          <SignIn onRouteChange={this.onRouteChange} />
+          <SignIn loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
         ) : (
           <Register
             loadUser={this.loadUser}
